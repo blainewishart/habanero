@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Webpage to Markdown Converter</title>
+	<style>
+		form {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 50px;
+		}
+		
+		label {
+			font-size: 20px;
+			margin-bottom: 10px;
+		}
+		
+		input[type="text"] {
+			padding: 10px;
+			font-size: 18px;
+			border-radius: 5px;
+			border: none;
+			box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+			margin-bottom: 20px;
+			width: 80%;
+			max-width: 500px;
+		}
+		
+		input[type="submit"] {
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px 20px;
+			border-radius: 5px;
+			border: none;
+			font-size: 18px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		
+		input[type="submit"]:hover {
+			background-color: #3e8e41;
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<label for="url-input">Enter a URL:</label>
+		<input type="text" id="url-input" name="url-input" placeholder="https://www.example.com">
+		<input type="button" value="Convert to Markdown" onclick="convertToMarkdown()">
+	</form>
+	
+	<script>
+		function convertToMarkdown() {
+			var url = document.getElementById("url-input").value;
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+					var markdown = xhr.responseText;
+					var blob = new Blob([markdown], {type: "text/plain;charset=utf-8"});
+					saveAs(blob, "converted.md");
+				}
+			};
+			xhr.open("POST", "/convert");
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.send(JSON.stringify({url: url}));
+		}
+	</script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+</body>
+</html>
+
