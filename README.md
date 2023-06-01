@@ -1,2 +1,2 @@
 # habanero
-simple node app written with ChatGPT to evaluate ChatGPT
+simple node app drafted with ChatGPT and updated 3 weeks later using copilot
